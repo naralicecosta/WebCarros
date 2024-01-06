@@ -60,7 +60,7 @@ export function Login(){
                         />
                     </div>
 
-                     <button>
+                     <button type='submit' className='bg-zinc-900 w-full rounded-md text-white h-10 font-medium'>
                         Acessar
                      </button>
                     
