@@ -2,8 +2,36 @@ import { Container } from "../../../components/container/Container"
 import { DashboardHeader } from "../../../components/panel_header/DashboardHeader"
 
 import {FiUpload} from 'react-icons/fi'
+import {useForm } from 'react-hook-form'
+import { Input } from "../../../components/input/Input"
+import {z} from 'zod'
+import { zodResolver } from "@hookform/resolvers/zod"
+
+const schema = z.object({
+    name: z.string().nonempty("o campo nome é obrigatório"),
+    model: z.string().nonempty("o modelo é obrigatório"),
+    year: z.string().nonempty("o ano do carro é obrigatório"),
+    km: z.string().nonempty("o km do carro é obrigatório"),
+    price: z.string().nonempty("o preço pe obrigatório"),
+    city: z.string().nonempty("a cidade é obrigatória"),
+    whatsapp: z.string().min(1, 'o telefone é obrigatório').refine((value) => /^(\d{10,12})$/.test(value),{
+        message: "Número de telefone inválido"
+    }),
+    description: z.string().nonempty("a descrição é obrigatória")
+})
+
+type FormData = z.infer<typeof schema>
 
 export function New(){
+    const {register, handleSubmit, formState: {errors}, reset} = useForm<FormData>({
+        resolver: zodResolver(schema),
+        mode: "onChange"
+    })
+
+    function onSubmit(data: FormData) {
+        console.log(data)
+
+    }
     return(
         <Container>
             <DashboardHeader />
@@ -20,8 +48,99 @@ export function New(){
             </div>
 
             <div className="w-full bg-shite p-3 rounded-lg flex flex-col sm:flex-row items-center gap-2 mt-2">
-                <h1>teste</h1>
+                <form
+                className="w-full"
+                onSubmit={handleSubmit(onSubmit)}>
+                    <div className="mb-3">
+                        <p className="mb-2 font-medium">Nome do carro</p>
+                        <Input 
+                        type="text"
+                        register={register}
+                        name="name"
+                        error={errors.name?.message}
+                        placeholder="Ex: Onix 1.0"/>
+                    </div>
 
+                    <div className="mb-3">
+                        <p className="mb-2 font-medium">Modelo do carro</p>
+                        <Input 
+                        type="text"
+                        register={register}
+                        name="model"
+                        error={errors.model?.message}
+                        placeholder="Ex: 1.0 flex plus manual"/>
+                    </div>
+
+                    <div className="flex w-full mb-3 flex-row items-center gap-4">
+                        <div className="w-full">
+                            <p className="mb-2 font-medium">Ano do carro</p>
+                            <Input 
+                            type="text"
+                            register={register}
+                            name="model"
+                            error={errors.year?.message}
+                            placeholder="Ex: 2016/2016"/>
+                        </div>
+
+                        <div className="w-full">
+                            <p className="mb-2 font-medium">KM rodado</p>
+                            <Input 
+                            type="text"
+                            register={register}
+                            name="km"
+                            error={errors.km?.message}
+                            placeholder="Ex: 23.890"/>
+                        </div>
+
+                    </div>
+
+                    <div className="flex w-full mb-3 flex-row items-center gap-4">
+                        <div className="w-full">
+                            <p className="mb-2 font-medium">telefone para contato/whatsapp</p>
+                            <Input 
+                            type="text"
+                            register={register}
+                            name="whatsapp"
+                            error={errors.whatsapp?.message}
+                            placeholder="Ex: 084988222488"/>
+                        </div>
+
+                        <div className="w-full">
+                            <p className="mb-2 font-medium">Cidade</p>
+                            <Input 
+                            type="text"
+                            register={register}
+                            name="city"
+                            error={errors.city?.message}
+                            placeholder="Ex: Natal/RN"/>
+                        </div>
+
+                    </div>
+
+                    <div className="mb-3">
+                        <p className="mb-2 font-medium">Preço</p>
+                        <Input 
+                        type="text"
+                        register={register}
+                        name="price"
+                        error={errors.price?.message}
+                        placeholder="Ex: R$78.000"/>
+                    </div>
+
+                    <div className="mb-3">
+                        <p className="mb-2 font-medium">Descrição</p>
+                        <textarea className="border-2 w-full rounded-md h-24 px-2"
+                        {...register("description")}
+                        name="description"
+                        id="description"
+                        placeholder="Digite a descrição completa sobre o carro..."/>
+                        {errors.description && <p className="mb-1 text-red-500">{errors.description.message}</p>}
+
+                    </div>
+                    <button type="submit" className="w-full rounded-md bg-zinc-900 text-white font-medium h-10">
+                        Cadastrar carro
+                    </button>
+                </form>
             </div>
         </Container>
     )
