@@ -10,8 +10,9 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { ChangeEvent, useState, useContext } from "react"
 import { AuthContext } from "../../../contexts/AuthContext"
 import {v4 as uuidV4} from 'uuid'
-import { storage } from "../../../services/firebaseConnection"
+import { storage, db } from "../../../services/firebaseConnection"
 import {ref, uploadBytes, getDownloadURL, deleteObject} from 'firebase/storage'
+import { addDoc, collection } from "firebase/firestore"
 
 const schema = z.object({
     name: z.string().nonempty("o campo nome é obrigatório"),
@@ -61,7 +62,6 @@ export function New(){
         }
         const currentUid = user?.uid;
         const uidImage = uuidV4();
-
         const uploadRef = ref(storage, `images/${currentUid}/${uidImage}`)
         uploadBytes(uploadRef, image)
         .then((snapshot) =>{
@@ -75,18 +75,49 @@ export function New(){
                 setCarImages((images) =>[...images, imageItem])
             })
         })
-
-
     }
+
     function onSubmit(data: FormData) {
-        console.log(data)
+        if(carImages.length === 0){
+            alert("Envie alguma imagem deste carro!")
+            return;
+        }
+        const carListImages = carImages.map(car => {
+            return{
+                uid: car.uid,
+                name: car.name,
+                url: car.url
+            }
+        })
+        addDoc(collection(db, "cars"),{
+            name: data.name,
+            model: data.model,
+            whatsapp: data.whatsapp,
+            city: data.city,
+            year: data.year,
+            km: data.km,
+            price: data.price,
+            description: data.description,
+            created: new Date(),
+            owner: user?.name,
+            uid: user?.uid,
+            images: carListImages,
+        })
+        .then(() => {
+            reset()
+            setCarImages([])
+            console.log("Cadastrado com sucesso")
 
+        })
+        .catch((error) => {
+            console.log(error)
+            console.log("Erro ao cadastrar no banco")
+        })
     }
+
     async function handleDeleteImage(item: ImageItemProps){
         const imagePath = `images/${item.uid}/${item.name}`
-
         const imageRef = ref(storage, imagePath)
-
         try{
             await deleteObject(imageRef)
             setCarImages(carImages.filter((car) => car.url !== item.url))
