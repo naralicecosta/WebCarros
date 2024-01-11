@@ -1,30 +1,39 @@
-# React + TypeScript + Vite
+<h1>Projeto Web Carros</h1> 
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<p align="center">
+  <img src="https://img.shields.io/static/v1?label=react&message=framework&color=blue&style=for-the-badge&logo=REACT"/>
+  <img src="https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white"/>
+  <img src="https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white"/>
+  <img src="https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white"/>
+  <img src="http://img.shields.io/static/v1?label=License&message=MIT&color=green&style=for-the-badge"/>
+   <img src="http://img.shields.io/static/v1?label=STATUS&message=DESENVOLVIMENTO&color=GREEN&style=for-the-badge"/>
+</p>
 
-Currently, two official plugins are available:
+> Status do Projeto: Em desenvolvimento
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+<p align="justify"></p>
 
-## Expanding the ESLint configuration
+### Tópicos 
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+:small_blue_diamond: [Descrição do projeto](#descrição-do-projeto) <br>
+:small_blue_diamond: [Deploy](#deploy) <br>
+:small_blue_diamond: [Desenvolvedores](#desenvolvedores-do-projeto) <br>
+ 
 
-- Configure the top-level `parserOptions` property like this:
+## Descrição do projeto 
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+<p align="justify">
+  Bem vindos ao meu projeto Web Carros, inspirado no aprendizado do curso de React e Typescript do Matheus Fraga. O site contém funcionalidades de divulgação de compra e venda de carros.
+</p>
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Deploy :dash:
+
+----projeto em desenvolvimento----
+
+## Desenvolvedores do projeto :octocat:
+<img src="https://avatars.githubusercontent.com/u/100246479?s=400&u=32f91101ca98eff945c2691a0d987461e95f8a77&v=4" width=115>Naralice Costa<br>
+Github: https://github.com/naralicecosta <br>
+Linkedin: https://www.linkedin.com/in/naralice-costa-81a796201/
+
+
+
