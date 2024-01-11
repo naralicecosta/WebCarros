@@ -185,7 +185,7 @@ export function New(){
                             <Input 
                             type="text"
                             register={register}
-                            name="model"
+                            name="year"
                             error={errors.year?.message}
                             placeholder="Ex: 2016/2016"/>
                         </div>
