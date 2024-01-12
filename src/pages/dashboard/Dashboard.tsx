@@ -2,7 +2,7 @@ import { Container } from "../../components/container/Container"
 import { DashboardHeader } from "../../components/panel_header/DashboardHeader"
 import { FiTrash2 } from "react-icons/fi"
 import { useState, useEffect, useContext } from "react"
-import { collection, getDocs, where, query } from "firebase/firestore"
+import { collection, getDocs, where, query, doc, deleteDoc } from "firebase/firestore"
 import { db } from "../../services/firebaseConnection"
 import { AuthContext } from "../../contexts/AuthContext"
 
@@ -52,47 +52,59 @@ export function Dashboard(){
                     })
                 })
                 setCars(listCars)
+
+                
             })
             
         }
         loadCars()
     },[user])
 
+    async function handleDeleteCar(id: string){
+        const docRef = doc(db, "cars", id)
+        await deleteDoc(docRef)
+        setCars(cars.filter(car => car.id !== id)) //comparar os id dos carros com o que quer deletar, depois vai mostrar os carros menos o que deletou
+    }
 
     return(
         <Container>
             <DashboardHeader />
 
             <main className="grid gird-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3" >
-
-                <section className="w-full bg-shite rounded-lg relative">
+                {cars.map (car => (
+                    <section key={car.id} className="w-full bg-shite rounded-lg relative">
 
                     <button 
+                    onClick={() => handleDeleteCar(car.id)}
                     
                     className="absolute bg-white w-14 rounded-full flex items-center justify-center right-2 top-2">
                         <FiTrash2 size={26} color="#000"/>
                     </button>
                     <img className="w-full rounded-lg mb-2 max-h-70"
-                    src=""/>
+                    src={car.images[0].url}/>
 
-                    <p className="font-bold mt-1 px-2 mb-2">NISSAN</p>
+                    <p className="font-bold mt-1 px-2 mb-2">{car.name}</p>
 
                     <div className="flex flex-col px-2">
-                        <span className="text-zinc-700">Ano 2016/2016 | km 2300.00km</span>
+                        <span className="text-zinc-700">Ano {car.year} | km {car.km}</span>
                     </div>
 
                     <strong className="text-black font-bold mt-4">
-                        R$ 150.000
+                        R${car.price}
                     </strong>
 
                     <div className="w-full h-px bg-slate-200 my-2 "></div>
                     <div className="px-2 pb-2">
                         <span className="text-black">
+                            {car.city}
 
                         </span>
                     </div>
 
                 </section>
+                ))}
+
+            
 
             </main>
         </Container>
