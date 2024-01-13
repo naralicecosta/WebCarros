@@ -3,8 +3,9 @@ import { DashboardHeader } from "../../components/panel_header/DashboardHeader"
 import { FiTrash2 } from "react-icons/fi"
 import { useState, useEffect, useContext } from "react"
 import { collection, getDocs, where, query, doc, deleteDoc } from "firebase/firestore"
-import { db } from "../../services/firebaseConnection"
+import { db, storage } from "../../services/firebaseConnection"
 import { AuthContext } from "../../contexts/AuthContext"
+import { ref, deleteObject } from "firebase/storage"
 
 interface CarProps{
     id: string,
@@ -60,10 +61,24 @@ export function Dashboard(){
         loadCars()
     },[user])
 
-    async function handleDeleteCar(id: string){
-        const docRef = doc(db, "cars", id)
+    async function handleDeleteCar(car: CarProps){
+        const itemCar = car
+        const docRef = doc(db, "cars", itemCar.id)
         await deleteDoc(docRef)
-        setCars(cars.filter(car => car.id !== id)) //comparar os id dos carros com o que quer deletar, depois vai mostrar os carros menos o que deletou
+
+        car.images.map(async(image) => {
+            const imagePath = `images/${image.uid}/${image.name}`
+            const imageRef = ref(storage, imagePath)
+
+           try{
+            await deleteObject(imageRef)
+                    setCars(cars.filter(car => car.id !== itemCar.id)) //comparar os id dos carros com o que quer deletar, depois vai mostrar os carros menos o que deletou
+
+           }catch(err){
+            console.log("Erro ao excluir essa imagem")
+           }
+
+        })
     }
 
     return(
