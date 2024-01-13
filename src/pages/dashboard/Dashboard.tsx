@@ -66,16 +66,16 @@ export function Dashboard(){
         const docRef = doc(db, "cars", itemCar.id)
         await deleteDoc(docRef)
 
-        car.images.map(async(image) => {
+        itemCar.images.map(async(image) => {
             const imagePath = `images/${image.uid}/${image.name}`
             const imageRef = ref(storage, imagePath)
 
            try{
-            await deleteObject(imageRef)
-                    setCars(cars.filter(car => car.id !== itemCar.id)) //comparar os id dos carros com o que quer deletar, depois vai mostrar os carros menos o que deletou
+                await deleteObject(imageRef)
+                setCars(cars.filter(car => car.id !== itemCar.id)) //comparar os id dos carros com o que quer deletar, depois vai mostrar os carros menos o que deletou
 
            }catch(err){
-            console.log("Erro ao excluir essa imagem")
+                console.log("Erro ao excluir essa imagem")
            }
 
         })
@@ -90,7 +90,7 @@ export function Dashboard(){
                     <section key={car.id} className="w-full bg-shite rounded-lg relative">
 
                     <button 
-                    onClick={() => handleDeleteCar(car.id)}
+                    onClick={() => handleDeleteCar(car)}
                     
                     className="absolute bg-white w-14 rounded-full flex items-center justify-center right-2 top-2">
                         <FiTrash2 size={26} color="#000"/>
