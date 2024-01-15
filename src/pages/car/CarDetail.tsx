@@ -138,7 +138,8 @@ export function CarDetail(){
             <p>{car?.whatsapp}</p>
     
             <a
-                href={`https://api.whatsapp.coom/send?phone=${car?.whatsapp}&text=Olá vi esse ${car?.name}no site WebCarros e fiquei interessado`}
+                href={`https://api.whatsapp.coom/send?phone=${car?.whatsapp}&text=Olá vi esse ${car?.name}no site WebCarros 
+                e fiquei interessado`}
                 target="_blank"
                 className="cursor-pointer bg-green-500 w-full text-white flex items-center justify-center gap-2 my-6 h-11 text-xl rounded-lg font-medium"
             >
