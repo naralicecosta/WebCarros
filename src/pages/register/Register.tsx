@@ -2,6 +2,7 @@ import { useEffect, useContext } from 'react'
 import logo from '../../assets/logo.svg'
 import { Container } from '../../components/container/Container'
 import { Link, useNavigate } from 'react-router-dom'
+import toast from 'react-hot-toast'
 
 import { Input } from '../../components/input/Input'
 import {useForm, } from 'react-hook-form'
@@ -49,6 +50,7 @@ export function Register(){
                 uid: user.user.uid
             })
             console.log("cadastrado com sucesso")
+            toast.success("Bem vindo ao WebCarros!!")
             navigate("/dashboard", {replace: true})
         })
         .catch((error) => {
