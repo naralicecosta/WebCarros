@@ -2,8 +2,10 @@ import { useEffect, useState } from "react"
 import { Container } from "../../components/container/Container"
 import {FaWhatsapp} from   'react-icons/fa'
 import { useParams } from "react-router-dom"
-import { getDoc, doc, snapshotEqual } from "firebase/firestore"
+import { getDoc, doc } from "firebase/firestore"
 import { db } from "../../services/firebaseConnection"
+import { Swiper } from "swiper/types"
+import { SwiperSlide } from "swiper/element"
 
 interface CarProps{
     id: string,
@@ -29,6 +31,7 @@ interface ImageCarProps{
 export function CarDetail(){
     const {id} = useParams()
     const [car, setCar] = useState<CarProps>()
+    const [sliderPerview, setSliderPerview] = useState<number>(2)
 
     useEffect(()=>{
         async function loadCar() {
@@ -52,18 +55,52 @@ export function CarDetail(){
                     owner: snapshot.data()?.km,
                     images: snapshot.data()?.images
                 })
-            })
-            
+            })   
         }
-    })
+        loadCar()
+    }, [id])
+
+    useEffect(()=>{
+        function handleResize(){
+            if(window.innerWidth < 720){
+                setSliderPerview(1)
+            }else{
+                setSliderPerview(2)
+            }
+        }
+
+        handleResize()
+        window.addEventListener("resize", handleResize)
+
+        return() =>{
+            window.removeEventListener("resize", handleResize)
+        }
+    },[])
+
     return(
+        <>
+        
         <Container>
+            <Swiper
+            slidesPerview={sliderPerview}
+            pagination={{clickable: true}}
+            navigation>
+                {car?.images.map(image => (
+                    <SwiperSlide key={image.name}>
+                        <img 
+                        src=[image.url}
+                        className="w-full h-96 object-cover"/>
+                    </SwiperSlide>
+                ))}
+
+            </Swiper>
             {car && (
                 <main className="w-full bg-white rounded-lg p-6 my-4">
                     <div className="flex flex-col sm:flex-row mb-4 items-center justify-between">
                         <h1 className="font-bold text-3xl text-black">{car?.name}</h1>
                         <h1  className="font-bold text-3xl text-black">R${car?.price}</h1>
                     </div>
+                    <p>{car?.model}</p>
 
                     <div className="flex w-full gap-6 my-4">
                         <div className="flex flex-col gap-4">
@@ -103,5 +140,6 @@ export function CarDetail(){
           
             )}
         </Container> 
+    </>
     )
 }
