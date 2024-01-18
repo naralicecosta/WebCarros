@@ -22,7 +22,7 @@
 ## Descrição do projeto 
 
 <p align="justify">
-  Bem vindos ao meu projeto Web Carros, inspirado no aprendizado do curso de React e Typescript do Matheus Fraga. O site contém funcionalidades de divulgação de compra e venda de carros.
+  Bem vindos ao meu projeto Web Carros, inspirado no aprendizado do curso de React e Typescript do Matheus Fraga. O site contém funcionalidades de divulgação de compra e venda de carros entre outros.
 </p>
 
 
